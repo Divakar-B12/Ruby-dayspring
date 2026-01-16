@@ -1,0 +1,36 @@
+Think of a Rails project like a big company, and every folder has its own department.
+
+All in one view:
+
+my_app/
+│
+├── app/                → Main application code (MVC)
+│   ├── models/         → Model (database + business logic)
+│   ├── controllers/    → Controller (handles requests & responses)
+│   ├── views/          → View (HTML/ERB files, UI)
+│   ├── helpers/        → Helper methods for views
+│
+├── config/             → Configuration files
+│   ├── routes.rb       → Maps URLs to controllers/actions
+│   ├── database.yml    → Database connection details
+│   ├── application.rb  → Main app configuration
+│
+├── db/                 → Database related files
+│   ├── migrate/        → Migration files (table creation/changes)
+│   ├── schema.rb       → Current structure of database
+│
+├── bin/                → Rails and bundle commands
+│
+├── log/                → Log files
+│
+├── tmp/                → Temporary files, cache, server pid
+│
+├── public/             → Static files (images, 404.html, etc.)
+│
+├── test/               → Test cases (or spec/ if using RSpec)
+│
+├── .gitignore          → Files Git should ignore
+├── Gemfile             → List of gems (libraries)
+├── Gemfile.lock        → Exact gem versions installed
+├── README.md           → Project documentation
+└── Rakefile            → Task automation
