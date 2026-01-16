@@ -7,3 +7,10 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+Product.create(
+  name: "Google Pixel 10 Pro",
+  description: "Google Pixel 10 Pro featuring Tensor G5 chip, advanced AI photography, 50MP triple camera setup, 6.7-inch LTPO OLED display, and seamless Google ecosystem integration.",
+  price: 1099.00,
+  stock: 25,
+  is_active: true
+)
