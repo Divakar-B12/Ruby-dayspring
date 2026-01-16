@@ -1,0 +1,60 @@
+<style>
+  /* Page Wrapper */
+  .form-page {
+    min-height: 100vh;
+    background: #f4f6fb;
+    padding: 30px;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  /* Form Card */
+  .form-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 500px;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+  }
+
+  /* Title */
+  .form-card h1 {
+    font-size: 24px;
+    color: #1f2937;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  /* Back Button */
+  .back-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: #4f46e5;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s ease;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<% content_for :title, "New customer" %>
+
+<div class="form-page">
+  <div class="form-card">
+    <h1>New Customer</h1>
+
+    <%= render "form", customer: @customer %>
+
+    <div style="text-align:center;">
+      <%= link_to "← Back to Customers", customers_path, class: "back-link" %>
+    </div>
+  </div>
+</div>
