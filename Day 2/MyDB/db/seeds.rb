@@ -14,3 +14,8 @@ Product.create(
   stock: 25,
   is_active: true
 )
+
+Product.create([{ name: "Apple iPhone 15 Pro Max", description: "Apple iPhone 15 Pro Max with A17 Pro chip, ProMotion display, advanced camera system, and titanium design.", price: 1199.00, stock: 30, is_active: true
+}, {
+  name: "Samsung Galaxy S24 Ultra", description: "Samsung Galaxy S24 Ultra featuring Snapdragon 8 Gen 3, 200MP quad-camera system, 6.8-inch Dynamic AMOLED display, and S Pen support.", price: 1299.00, stock: 20, is_active: true }
+])
