@@ -1,0 +1,110 @@
+<style>
+  body{
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+    font-family: "Segoe UI", sans-serif;
+    min-height: 100vh;
+  }
+
+  .products-container{
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #f1f5f9);
+    box-shadow: 
+      12px 12px 25px rgba(0,0,0,0.15),
+      -12px -12px 25px rgba(210,210,210,0.8);
+  }
+
+  .page-title{
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+  }
+
+  .notice{
+    text-align: center;
+    color: #22c55e;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  #products{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 25px;
+  }
+
+  .product-link{
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .product-link a{
+    text-decoration: none;
+    background: #4f46e5;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    display: inline-block;
+    transition: 0.3s;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  }
+
+  .product-link a:hover{
+    background: #4338ca;
+    transform: scale(1.05);
+  }
+
+  .new-product-btn{
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .new-product-btn a{
+    text-decoration: none;
+    background: linear-gradient(to right, #22c55e, #16a34a);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.3s;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+  }
+
+  .new-product-btn a:hover{
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+  }
+</style>
+
+<p class="notice"><%= notice %></p>
+
+<% content_for :title, "Products" %>
+
+<div class="products-container">
+  <div class="page-title">Products</div>
+  
+
+  <div id="products">
+    <%# <% @products = @products.out_of_stock %> 
+    <% @products.each do |product| %>
+      <div>
+        <%= render product %>
+        <div class="product-link">
+          <%= link_to "Show this product", product %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="new-product-btn">
+    <%= link_to "New product", new_product_path %>
+  </div>
+</div>

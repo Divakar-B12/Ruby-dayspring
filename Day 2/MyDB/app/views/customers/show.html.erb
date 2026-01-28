@@ -1,0 +1,116 @@
+<style>
+  /* Page Wrapper */
+  .customer-show-page {
+    min-height: 100vh;
+    background: #f4f6fb;
+    padding: 30px;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+  }
+
+  /* Notice Message */
+  .notice-msg {
+    background: linear-gradient(135deg, #d1e7dd, #e6f4ec);
+    color: #0f5132;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    border: 1px solid #a3cfbb;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    width: fit-content;
+  }
+
+  /* Action Section */
+  .action-links {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Common Button Style */
+  .btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+  }
+
+  /* Edit Button */
+  .btn-edit {
+    color: #ffffff;
+    background: #4f46e5;
+    border: 1px solid #4f46e5;
+    box-shadow: 0 4px 10px rgba(79,70,229,0.25);
+  }
+
+  .btn-edit:hover {
+    background: #4338ca;
+    border-color: #4338ca;
+    transform: translateY(-2px);
+  }
+
+  /* Back Button */
+  .btn-back {
+    color: #374151;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+  }
+
+  .btn-back:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+  }
+
+  /* Destroy Button */
+  .destroy-btn input {
+    background: #ef4444;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(239,68,68,0.25);
+  }
+
+  .destroy-btn input:hover {
+    background: #dc2626;
+    transform: translateY(-2px);
+  }
+
+  .destroy-btn input:active {
+    transform: scale(0.98);
+  }
+</style>
+
+<div class="customer-show-page">
+
+  <% if notice.present? %>
+    <p class="notice-msg"><%= notice %></p>
+  <% end %>
+
+  <%= render @customer %>
+  <p>
+    <strong>About me</strong>
+    <%= @customer.about_me%>
+  </p>
+
+  <div class="action-links">
+    <%= link_to "✏ Edit Customer", edit_customer_path(@customer), class: "btn btn-edit" %>
+    <%= link_to "← Back to Customers", customers_path, class: "btn btn-back" %>
+
+    <div class="destroy-btn">
+      <%= button_to "🗑 Destroy Customer", @customer, method: :delete, data: { confirm: "Are you sure you want to delete this customer?" } %>
+    </div>
+  </div>
+
+</div>

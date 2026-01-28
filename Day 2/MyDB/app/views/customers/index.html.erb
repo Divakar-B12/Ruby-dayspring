@@ -1,0 +1,97 @@
+<style>
+  /* Page Layout */
+  .customers-page {
+    padding: 20px;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #f4f6fb;
+    min-height: 100vh;
+  }
+
+  /* Notice Message */
+  .notice {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    width: fit-content;
+  }
+
+  /* Header */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .page-header h1 {
+    color: #1f2937;
+    font-size: 26px;
+  }
+
+  /* New Customer Button */
+  .btn-new {
+    background: #22c55e;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .btn-new:hover {
+    background: #16a34a;
+  }
+
+  /* Customers Grid */
+  #customers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  /* Show Button */
+  .show-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: #4f46e5;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .show-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="customers-page">
+
+  <% if notice.present? %>
+    <p class="notice"><%= notice %></p>
+  <% end %>
+
+  <% content_for :title, "Customers" %>
+
+  <div class="page-header">
+    <h1>Customers</h1>
+    <%= link_to "➕ New Customer", new_customer_path, class: "btn-new" %>
+  </div>
+
+<%# <% @customers = @customers.blacklisted_customers([1,2,3]) %>
+
+  <div id="customers">
+    <% @customers.each do |customer| %>
+      <div>
+        <%= render customer %>
+        <%= link_to "View Details", customer, class: "show-link" %>
+      </div>
+    <% end %>
+  </div>
+
+</div>

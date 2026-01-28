@@ -1,0 +1,104 @@
+<style>
+  .customer-form {
+    width: 350px;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  .required {
+    color: red;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+  }
+
+  .form-group input:focus {
+    border-color: #4CAF50;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .submit-btn:hover {
+    background: #45a049;
+  }
+
+  .error-box {
+    color: #721c24;
+    background: #f8d7da;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c6cb;
+  }
+</style>
+
+<%= form_with(model: customer, class: "customer-form") do |form| %>
+
+  <% if customer.errors.any? %>
+    <div class="error-box">
+      <h3><%= pluralize(customer.errors.count, "error") %> prohibited this customer from being saved:</h3>
+      <ul>
+        <% customer.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name do %>
+      Name <span class="required">*</span>
+    <% end %>
+    <%= form.text_field :name, placeholder: "Enter your name", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :email do %>
+      Email <span class="required">*</span>
+    <% end %>
+    <%= form.email_field :email, placeholder: "Enter your email", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :about_me do %>
+      About me <span class="required">*</span>
+    <% end %>
+    <%= form.rich_text_area :about_me, placeholder: "Write about you", required: true %>
+  </div>
+  
+
+  <div>
+    <%= form.submit "Save Customer", class: "submit-btn" %>
+  </div>
+
+<% end %>

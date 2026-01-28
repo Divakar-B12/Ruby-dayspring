@@ -1,0 +1,132 @@
+<style>
+  body{
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+    font-family: "Segoe UI", sans-serif;
+    min-height: 100vh;
+  }
+
+  .product-card {
+    width: 440px;
+    margin: 40px auto;
+    padding: 28px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #ffffff, #f1f5f9);
+    box-shadow:
+      8px 8px 18px #bfc5cc,
+      -8px -8px 18px #ffffff;
+    transition: all 0.4s ease;
+    position: relative;
+  }
+
+  .product-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow:
+      14px 14px 28px #b0b6bc,
+      -14px -14px 28px #ffffff;
+  }
+
+  .product-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .product-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .product-field:last-child {
+    border-bottom: none;
+  }
+
+  .product-field strong {
+    color: #334155;
+    font-size: 15px;
+  }
+
+  .product-name {
+    color: #2563eb;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .product-desc {
+    color: #64748b;
+    font-size: 14px;
+    text-align: right;
+    max-width: 230px;
+  }
+
+  .price {
+    color: #16a34a;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .stock {
+    color: #f97316;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .active {
+    color: #22c55e;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(34, 197, 94, 0.15);
+    box-shadow: inset 0 0 6px rgba(34,197,94,0.4);
+  }
+
+  .inactive {
+  color: #ef4444;                 /* Strong red text */
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(239, 68, 68, 0.15);   /* Light red background */
+  box-shadow: inset 0 0 6px rgba(239, 68, 68, 0.4);
+}
+
+</style>
+
+
+<div id="<%= dom_id product %>" class="product-card">
+  <div class="product-title">Product Details</div>
+
+  <div class="product-field">
+    <strong>Name:</strong>
+    <span class="product-name"><%= product.name %></span>
+  </div>
+
+  <div class="product-field">
+    <strong>Description:</strong>
+    <span class="product-desc"><%= product.description %></span>
+  </div>
+
+  <div class="product-field">
+    <strong>Price:</strong>
+    <span class="price">₹ <%= product.price %></span>
+  </div>
+
+  <div class="product-field">
+    <strong>Stock:</strong>
+    <span class="stock"><%= product.stock %></span>
+  </div>
+
+  <div class="product-field">
+    <strong>Status:</strong>
+    <% if product.is_active %>
+      <span class="active">Active</span>
+    <% else %>
+      <span class="inactive">Inactive</span>
+    <% end %>
+  </div>
+</div>

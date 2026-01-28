@@ -1,0 +1,95 @@
+<style>
+  body{
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+    font-family: "Segoe UI", sans-serif;
+    min-height: 100vh;
+  }
+
+  .notice-msg{
+    text-align: center;
+    color: #0f5132;
+    background: #d1e7dd;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    width: fit-content;
+    margin: 20px auto;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+
+  .product-show-container{
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #f3f4f6);
+    box-shadow:
+      12px 12px 24px rgba(0,0,0,0.25),
+      -12px -12px 24px rgba(255,255,255,0.8);
+    transition: 0.3s;
+  }
+
+  .product-show-container:hover{
+    transform: translateY(-6px);
+    box-shadow:
+      18px 18px 36px rgba(0,0,0,0.35),
+      -18px -18px 36px rgba(255,255,255,0.9);
+  }
+
+  .product-actions{
+    margin-top: 25px;
+    text-align: center;
+  }
+
+  .product-actions a,
+  .product-actions input{
+    text-decoration: none;
+    background: #4f46e5;
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    display: inline-block;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  }
+
+  .product-actions a:hover,
+  .product-actions input:hover{
+    background: #4338ca;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+  }
+
+  .delete-btn input{
+    background: #ef4444;
+  }
+
+  .delete-btn input:hover{
+    background: #dc2626;
+  }
+</style>
+
+
+<p class="notice-msg"><%= notice %></p>
+
+<div class="product-show-container">
+  <%= render @product %>
+  <p>
+    <strong>Product Review</strong>
+    <%= @product.Review%>
+  </p>
+
+  <div class="product-actions">
+    <%= link_to "Edit this product", edit_product_path(@product) %>
+    <%= link_to "Back to products", products_path %>
+
+    <div class="delete-btn" style="display:inline;">
+      <%= button_to "Destroy this product", @product, method: :delete %>
+    </div>
+  </div>
+</div>

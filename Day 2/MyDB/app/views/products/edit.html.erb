@@ -1,0 +1,73 @@
+<style>
+  body{
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: "Segoe UI", sans-serif;
+    min-height: 100vh;
+  }
+
+  .edit-container{
+    width: 500px;
+    margin: 60px auto;
+    padding: 30px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #ffffff, #f1f5f9);
+    box-shadow:
+      10px 10px 25px rgba(0,0,0,0.15),
+      -10px -10px 25px rgba(255,255,255,0.7);
+    transition: all 0.3s ease;
+  }
+
+  .edit-container:hover{
+    transform: translateY(-6px);
+    box-shadow:
+      15px 15px 35px rgba(0,0,0,0.2),
+      -15px -15px 35px rgba(255,255,255,0.8);
+  }
+
+  .edit-title{
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+
+  .edit-links{
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .edit-links a{
+    text-decoration: none;
+    color: white;
+    background: #4f46e5;
+    padding: 8px 18px;
+    border-radius: 8px;
+    margin: 0 6px;
+    display: inline-block;
+    transition: 0.3s;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  }
+
+  .edit-links a:hover{
+    background: #4338ca;
+    transform: scale(1.08);
+  }
+</style>
+
+
+<% content_for :title, "Editing product" %>
+
+<div class="edit-container">
+  <div class="edit-title">Editing Product</div>
+
+  <%= render "form", product: @product %>
+
+  <br>
+
+  <div class="edit-links">
+    <%= link_to "Show this product", @product %>
+    <%= link_to "Back to products", products_path %>
+  </div>
+</div>
