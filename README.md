@@ -406,3 +406,32 @@ my_app/
 ├── README.md           → Project documentation
 └── Rakefile            → Task automation
 ```
+
+# DAY 4
+## App Folder
+
+- Controllers  
+  - Handles requests and responses  
+- Models  
+  - Maintains database tables  
+- Views  
+  - Used for UI (`.html.erb` files)
+
+## Data Types
+
+- String (mutable)
+- Integer
+- Float
+- Symbol (immutable)
+- Boolean
+- Nil
+
+## Variables
+
+- Local → `name`
+- Global → `$name`
+- Instance → `@name`
+- Class → `@@name`
+- Constant → `NAME`
+
+
