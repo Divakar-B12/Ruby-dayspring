@@ -990,6 +990,189 @@ Important Notes
 - Inbuilt Validation	 validates
 - Custom Validation	   validate
 
+# Day 10
 
-  
-  
+Scopes in Rails
+
+- Scopes are defined inside **models**.
+- They are used to handle **repetitive database queries**.
+- Scopes always return **ActiveRecord relations (table records)**.
+- They help in writing clean, reusable, and readable code.
+
+---
+
+Difference Between Methods and Scopes
+
+- **Methods**
+  - Used mainly for method chaining.
+  - Used for reusable logic.
+  - Can return any type of value.
+
+- **Scopes**
+  - Used mainly for filtering database records.
+  - Perform a single operation on the database or collections.
+  - Always return database records.
+
+| Feature            | Method | Scope |
+|-------------------|--------|-------|
+Return DB records   | Optional | Always |
+Chaining            | Mostly used | Limited |
+Purpose             | Logic handling | Query filtering |
+
+---
+
+Writing Scopes Using Queries
+
+1. Using Rails Query
+
+```ruby
+scope :out_of_stock, -> { where("stock <= ?", 0) }
+```
+
+2. Using SQL Query
+
+```
+scope :test_scope, -> { find_by_sql("WRITE YOUR SQL QUERY HERE") }
+```
+
+Example: 
+```
+scope :cheap_products, -> {
+  find_by_sql("SELECT * FROM products WHERE price < 100")
+}
+```
+Types of Scopes : 
+1. Non-Parameterized Scope
+Does not take any arguments.
+```
+scope :out_of_stock, -> { where("stock <= ?", 0) }
+```
+Usage:
+```
+Product.out_of_stock
+``` 
+2. Parameterized Scope
+Takes arguments.
+```
+scope :blacklisted_customers, ->(customer_ids) { where(id: customer_ids) }
+```
+Usage:
+```
+Customer.blacklisted_customers([1, 2, 3])
+```
+- Assignment
+  The assignment code is uploaded in the Day10 folder.
+ERB Tags in Rails Views
+Used to embed Ruby code inside HTML files.
+- <% %>
+  - Executes Ruby code.
+  - Does NOT display anything.
+```
+<% if condition %>
+  <!-- HTML content -->
+<% end %>
+```
+
+- <%= %>
+  - Executes Ruby code.
+  - Displays the result on the webpage.
+```
+<%= @product.name %>
+```
+
+Note: 
+- Scopes make database queries reusable.
+- They improve readability of queries.
+- They help maintain clean code in Rails applications.
+- Use scopes when the same query is needed in multiple places.
+
+# Day 11
+```
+No class
+```
+
+# Day 12
+
+Rails Components & Routing
+
+Components
+
+- Rails provides many **components** which contain built-in methods and features.
+- These components help to:
+  - Reduce boilerplate code
+  - Simplify development
+  - Improve performance and maintainability
+- Different Rails components are explained in detail in the **Day12 README.md** file.
+
+---
+
+ActivePack
+
+- ActivePack is a Rails component used to generate controllers and views automatically.
+- It simplifies UI generation by creating default controller actions and view files.
+
+Example:
+
+```bash
+rails g controller admin
+```
+
+This command will:
+  - Create AdminController
+  - Create a folder app/views/admin/
+  - Generate helper files and test files
+So, by one command:
+  - Controller + Views are generated automatically.
+
+1 .Add a New Column to an Existing Table 
+To add a new column to the products table:
+```
+rails g migration AddMobToProduct mob:bigint
+rails db:migrate
+```
+This will:
+  - Create a migration file
+  - Add a new column mob of type bigint to the products table
+  - Apply the changes to the database
+
+2. Remove a Column from a Table
+To remove a column from customers table:
+```
+rails g migration RemoveFromCustomers mob:bigint
+rails db:migrate
+```
+This will: 
+  - Remove the mob column from the customers table
+
+Routes Configuration
+- Rails provides flexibility to include or exclude routes.
+  1. Skip Specific Routes
+     If you want to skip certain routes:
+     ```
+     resources :products, except: [:show]
+     ```
+     This will generate all routes except:
+      - show
+2. Allow Only Specific Routes
+   If you want only selected routes:
+   ```
+   resources :products, only: [:edit, :destroy]
+   ```
+This will generate only:
+- edit
+- destroy
+
+Summary 
+- Rails Components simplify coding.
+- ActivePack auto-generates controllers and views.
+- Migrations are used to:
+  - Add columns
+  - Remove columns
+  - Modify tables
+- Routes can be:
+  - Limited using only
+  - Skipped using except
+- These features help maintain:
+  - Clean structure
+  - Flexible routing
+  - Easy database evolution
