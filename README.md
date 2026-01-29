@@ -435,3 +435,44 @@ my_app/
 - Constant → `NAME`
 
 
+# DAY 5
+
+# Ruby on Rails – Notes (Methods, Type Casting, Scaffold, Data Insertion, Faker)
+
+---
+
+## 📌 Notes
+
+- A method in Ruby automatically returns the last executed line.
+- If a specific condition is required, we explicitly use `return`.
+
+### Comments in Ruby
+- Single line comment:
+```ruby
+# This is a single line comment
+```
+- Multi-line comment:
+  ```bash
+  =begin
+  This is a
+  multi-line comment
+  =end
+  ```
+Type Casting
+- By default, input taken using gets is a String.
+- Ruby does not support implicit type casting.
+- We must convert types explicitly.
+Common conversions:
+# String to Integer
+str.to_i
+
+# Integer to String
+num.to_s
+
+# String to Float
+str.to_f
+
+# Float to String
+float.to_s
+
+
