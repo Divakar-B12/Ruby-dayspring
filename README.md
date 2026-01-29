@@ -521,13 +521,13 @@ float.to_s
     ``` 
   Run: 
   ```
-rails db:seed
-```
-4. Using Rails Console
-   ```
-   rails console
+    rails db:seed
   ```
+4. Using Rails Console
 ```
+   rails console
+  
+
 Product.create(
   name: "Tesla",
   description: "The tesla product",
@@ -535,6 +535,6 @@ Product.create(
   stock: 3,
   is_active: true
 )
-  ```
+```
 
 
