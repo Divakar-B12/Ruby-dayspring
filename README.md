@@ -372,7 +372,7 @@ Run: rails db:seed
 Think of a Rails project like a big company, and every folder has its own department.
 
 All in one view:
-
+```bash
 my_app/
 │
 ├── app/                → Main application code (MVC)
@@ -405,4 +405,4 @@ my_app/
 ├── Gemfile.lock        → Exact gem versions installed
 ├── README.md           → Project documentation
 └── Rakefile            → Task automation
-
+```
