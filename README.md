@@ -463,16 +463,78 @@ Type Casting
 - Ruby does not support implicit type casting.
 - We must convert types explicitly.
 Common conversions:
-# String to Integer
+String to Integer
+```
 str.to_i
-
-# Integer to String
+```
+Integer to String
+```
 num.to_s
-
-# String to Float
+```
+String to Float
+```
 str.to_f
+```
 
-# Float to String
+Float to String
+```
 float.to_s
+```
+
+- Creating Product Package (Scaffold):
+  Creating Product Package (Scaffold)
+  ```
+  rails generate scaffold Product name:string description:text price:decimal stock:integer is_active:boolean
+  ```
+  
+  After every DB-related change, run:
+  ```
+  rails db:migrate
+  ```
+-  Ways to Insert Data
+  1. By UI
+     Rails automatically provides a form UI to insert and update records.
+  2. Manually Using Database (DBeaver / PgAdmin)
+     ```
+     INSERT INTO "products" 
+     ("name", "description", "price", "stock", "is_active", "created_at", "updated_at")
+     VALUES 
+     ('Iq', 'The IQ new product', 80, 2, TRUE, '2026-01-16', '2026-01-16');
+    ```
+  3. Using db/seeds.rb
+     ```bash
+      Product.create(
+      name: "Tesla 1",
+      description: "The tesla 1 product",
+      price: 900,
+      stock: 30,
+      is_active: true
+      )
+
+      Product.create(
+      name: "Tesla 2",
+      description: "The tesla 2 product",
+      price: 9000,
+      stock: 300,
+      is_active: true
+      )
+    ``` 
+  Run: 
+  ```
+rails db:seed
+```
+4. Using Rails Console
+   ```
+   rails console
+  ```
+```
+Product.create(
+  name: "Tesla",
+  description: "The tesla product",
+  price: 90,
+  stock: 3,
+  is_active: true
+)
+  ```
 
 
