@@ -1176,3 +1176,24 @@ Summary
   - Clean structure
   - Flexible routing
   - Easy database evolution
+
+ ## 📌 Quick Reference Table
+
+| Command | Description |
+|-------|-------------|
+| `ruby --version` | Check Ruby version |
+| `rails --version` | Check Rails version |
+| `gem install rails` | Install Rails |
+| `rails new ProjectName` | Create new Rails project |
+| `rails new project_name --skip-test` | Create project without tests |
+| `rails g scaffold` | Generate full MVC structure |
+| `rails g controller` | Generate only controller |
+| `rails g model` | Generate only model |
+| `rails db:create` | Create database |
+| `rails db:migrate` | Apply migrations |
+| `rails db:seed` | Insert seed data |
+| `rails c` | Open Rails console |
+| `rails s` | Start Rails server |
+| `gem install faker` | Install Faker gem |
+
+---
