@@ -518,16 +518,16 @@ float.to_s
       stock: 300,
       is_active: true
       )
-    ``` 
-  Run: 
+    ```
+Run: 
   ```
     rails db:seed
   ```
 4. Using Rails Console
 ```
    rails console
-  
-
+```
+```
 Product.create(
   name: "Tesla",
   description: "The tesla product",
