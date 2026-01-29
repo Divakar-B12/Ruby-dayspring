@@ -536,5 +536,460 @@ Product.create(
   is_active: true
 )
 ```
+Faker API 
+- Faker is used to generate fake or dummy data.
+- Implemented using a gem.
+
+Add to Gemfile:
+
+```
+gem 'faker'
+```
+Install:
+```
+bundle install
+
+```
+Usage example:
+```
+Product.create(
+  name: Faker::Commerce.product_name,
+  description: Faker::Lorem.sentence,
+  price: Faker::Commerce.price,
+  stock: rand(1..50),
+  is_active: true
+)
+```
+Important Notes:
+- Rails commands are case-sensitive.
+- Model names must start with a capital letter.
+- Table and column names must not contain spaces.
+- Strings must be written inside double quotes " ".
+- Even a small space or wrong case can cause errors.
+- Always run rails db:migrate after changing the database schema.
+
+# Day 6
+Loops in Ruby / Rails
+Rails (Ruby) provides built-in looping constructs:
+- for loop
+  - Used when initialization is given.
+  - Automatically increments by +1.
+```
+for i in 1..5
+  puts i
+end
+```
+- while loop
+  - Checks the condition first.
+  - Executes only if the condition is true.
+```
+i = 1
+while i <= 5
+  puts i
+  i += 1
+end
+```
+- loop (similar to do–while)
+  - loop (similar to do–while)
+```
+i = 1
+loop do
+  puts i
+  i += 1
+  break if i > 5
+end
+```
+- until loop
+  - Runs until the condition becomes true.
+```
+i = 1
+until i > 5
+  puts i
+  i += 1
+end
+```
+In-Built Methods for Collections (Enumerable Module)
+These methods are provided by Ruby’s Enumerable module:
+- each
+  - Used to access each element.
+```
+arr.each { |x| puts x }
+```
+- select
+  - Returns elements that satisfy a condition.
+```
+arr.select { |x| x > 5 }
+```
+
+- reject
+  - Returns elements that do NOT satisfy a condition.
+```
+arr.reject { |x| x > 5 } 
+```
+- map / collect
+  - Used to transform each element.
+  - Both do the same thing.
+```
+arr.map { |x| x * 2 }
+```
+
+Notes on Enumerable Methods: 
+- These methods do not modify the original array.
+- To modify the array permanently, use !:
+```
+arr.select! { |x| x > 5 }
+```
+- If a method returns a boolean, it usually ends with ?:
+```
+arr.all? { |x| x > 0 }
+arr.any? { |x| x == 3 }
+```
+Rails Methods for Data Communication
+- pluck
+  - Used to select specific columns from the database.
+  - Faster because it avoids loading full objects.
+Example:
+```
+@products = Product.all.limit(10)
+@stock   = Product.all.limit(10).pluck(:stock)
+@prices  = Product.all.limit(10).pluck(:price)
+```
+Question 
+
+Select 10 products which are in active condition
+```
+Product.where(is_active: true).limit(10)
+```
+
+# Day 7 
+Class
+  - Class names should always be written in CamelCase.
+  - First letter must be capital.
+
+Example:
+```
+class CustomerController
+end
+```
+Methods 
+  - Method and variable names should be written in snake_case.
+Example:
+```
+def limit_active
+end
+```
+There are mainly two important types of methods:
+1. Predicate Methods
+   - These methods return only true or false.
+   - They always end with ?.
+
+Example:
+```
+active?
+empty?
+valid?
+```
+2. Bang Methods
+   - Normally, methods do not modify the original object.
+   - When ! is used, the method modifies the original data.
+
+Example:
+```
+arr.sort      # does not change original
+arr.sort!     # changes original array
+```
+
+Inheritance 
+  - Ruby allows single inheritance only.
+  - One class can inherit from only one parent class.
+  - The super keyword is used to call the parent class method.
+    
+Example:
+```
+class Animal
+  def speak
+    "Sound"
+  end
+end
+
+class Dog < Animal
+  def speak
+    super + " Bark"
+  end
+end
+```
+- Method Lookup Hierarchy:
+  When a method is called, Ruby searches in this order:
+  1. Child Class
+  2. Base (Parent) Class
+  3. Object
+  4. Kernel (Module)
+  5. BasicObject
+  
+- Ancestors
+  - Ruby checks methods following the hierarchy:
+    ```
+    Child → Parent → Object → Kernel → BasicObject
+    ```
+- You can see this using:
+  ```
+  ClassName.ancestors
+  ```
+respond_to?
+  - Used to check whether an object has a particular method.
+Example:
+```
+"Sample".respond_to?(:upcase)
+```
+Returns: 
+  - true if the method exists
+  - false if the method does not exist
+Notes:
+- respond_to? also returns true for inherited methods.
+- Methods can be from:
+  -  Child class
+  -  Parent class
+  -  Object
+  -  Kernel
+  -  BasicObject
+
+# Day 8
+Conditional Statements
+Conditional statements are used to perform operations based on conditions.
+
+1. If – Else
+   - Checks a condition and executes code if it is true, otherwise executes the else part.
+```
+stock = -20
+is_available = false
+
+if stock > 0
+  is_available = true
+else
+  puts "Item not available"
+end
+```
+2. Elsif (Else If)
+   - Used when multiple conditions need to be checked.
+```
+price = 350
+discount = 0
+
+if price > 100
+  discount = 10
+elsif price > 200
+  discount = 20
+elsif price > 300
+  discount = 30
+elsif price > 400
+  discount = 40
+else
+  discount = 5
+end
+
+puts discount
+```
+3. Ternary Operator
+   - A short form of if-else written in a single line.
+```
+puts is_active ? "Item present" : "Not present"
+```
+
+4. Unless
+   - Opposite of if.
+   - Executes when the condition is false.
+```
+stock = 15
+
+unless stock < 0
+  puts "Stock available"
+else
+  puts "Stock not available"
+end
+```
+5. Case Statement
+   - Used to handle multiple conditions like a switch statement.
+Example using conditions:
+```
+price = 350
+discount = 0
+
+case
+when price >= 100 && price < 200
+  discount = 10
+when price >= 200 && price < 300
+  discount = 20
+when price >= 300 && price < 400
+  discount = 30
+when price >= 400 && price < 500
+  discount = 40
+else
+  discount = 5
+end
+
+puts discount
+```
+Example using ranges: 
+```
+price = 350
+discount = 0
+
+case price
+when 100..200
+  discount = 10
+when 200..300
+  discount = 20
+when 300..400
+  discount = 30
+when 400..500
+  discount = 40
+else
+  discount = 5
+end
+
+puts discount
+```
+Notes: 
+  - When using logical operators (&&, ||, <, >), you write conditions explicitly.
+  - When using ranges (100..200), you can directly pass the variable to case.
+
+Access Modifiers
+Ruby has three types of access modifiers:
+1. Public
+   - Default access level.
+   - Methods and classes can be accessed from anywhere.
+```
+public
+```
+2. Private
+   - Methods can only be accessed inside the same class.
+   - Cannot be called directly using an object.
+```
+private
+```
+Example:
+```
+class Sample
+  def show
+    secret_method
+  end
+
+  private
+
+  def secret_method
+    puts "This is private"
+  end
+end
+```
+To access private methods:
+  - Call them from a public method inside the same class.
+3. Protected
+  - Methods can be accessed:
+    - Inside the same class
+    - Inside subclasses
+```
+protected
+```
+```
+class Parent
+  protected
+
+  def protected_method
+    "Protected Method"
+  end
+end
+
+class Child < Parent
+  def show
+    protected_method
+  end
+end
+```
+Notes on Access Modifiers
+- Private methods:
+  - Cannot be accessed using an object directly.
+  - Must be called from a public method inside the class.
+- Protected methods:
+  - Can be accessed within the class and its subclasses.
+  - Used when methods should be shared only among related classes.
+
+# Day 9
+
+Note:
+  - Email validation in Rails was introduced as an inbuilt feature from Rails version 6.
+  - Encryption and decryption features were introduced from Rails version 7, where we can directly use methods inside models to encrypt and decrypt data.
+
+Validators
+- Validations in Rails are used to ensure only valid data is saved into the database.
+
+They can be done in two ways: 
+- Frontend Validation
+  - Done in HTML forms.
+  - Checks data while the user is entering it.
+  - Prevents invalid data from being submitted.
+Example:
+```
+<input type="email" required>
+```
+- Backend Validation (Model Level)
+  - Done inside Rails models.
+  - Runs after data is sent from frontend.
+  - Provides stronger security and reliability.
+
+- Types of Validations
+  1. Inbuilt Validations
+    - Rails provides many built-in validation methods.
+    - They are written using validates.
+Examples:
+  - Presence validation:
+    ```
+    validates :email, presence: true
+    ```
+  - Uniqueness validation:
+    ```
+    validates :email, uniqueness: true
+    ```
+  - Format validation:
+    ```
+    validates :name, format: { 
+    with: /\A[a-zA-Z]+\z/, 
+    message: "Only letters are allowed" 
+    }
+    ```
+These validations ensure that:
+  - Data is not empty
+  - Data is unique
+  - Data follows a proper format
+
+  2. Custom Validations
+     - We can define our own validation methods based on business logic.
+     - These are written as normal Ruby methods inside the model.
+     - They are called using validate.
+       ```
+       class Product < ApplicationRecord
+        validate :check_price
+
+        def check_price
+        if stock == 0 && price > 0
+        errors.add(:stock, "Stock is not available.")
+            end
+          end
+        end
+       ```
+Important Notes 
+- For inbuilt validations, use:
+  ```
+  validates
+  ```
+- For custom validations, use:
+  ```
+  validate
+  ```
+- Type	               Keyword Used
+------------------------------------
+- Inbuilt Validation	 validates
+- Custom Validation	   validate
 
 
+  
+  
