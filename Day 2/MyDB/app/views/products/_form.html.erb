@@ -1,4 +1,4 @@
-<%= form_with(model: product) do |form| %>
+<%= form_with(model: product, html: { multipart: true }) do |form| %>
 <% if @product.errors.any? %>
   <div id="error_explanation">
     <h2>
@@ -40,6 +40,16 @@
   <div>
     <%= form.label :Review %>
     <%= form.rich_text_area :Review %>
+  </div>
+
+  <div>
+    <%= form.label :product_picture %>
+    <%= form.file_field :product_picture, multiple: false %>
+  </div>
+
+  <div>
+    <%= form.label :invoice %> 
+    <%= form.file_field :invoice %>
   </div>
 
   <div>

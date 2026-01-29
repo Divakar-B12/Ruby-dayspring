@@ -1,4 +1,5 @@
 class Customer < ApplicationRecord
+  has_one_attached :profile_photo
   has_rich_text :about_me
   # scope :blacklisted, -> { where(is_blacklisted: true) }
   # scope :unique_email, ->(email) { where(email: "spvenkatesh010@gmail.com") }

@@ -1,4 +1,7 @@
 class Product < ApplicationRecord
+  has_one_attached :invoice
+  # has_one_attached :product_picture
+  has_many_attached :product_picture
   has_rich_text :Review
   # scope :blacklisted, -> { where(is_blacklisted: true) }as
   validates :name, profanity: true

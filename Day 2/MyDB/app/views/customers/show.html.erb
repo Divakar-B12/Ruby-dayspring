@@ -104,6 +104,16 @@
     <%= @customer.about_me%>
   </p>
 
+  <p>
+  <strong>Profile Photo</strong>
+
+  <% if @customer.profile_photo.attached? %>
+    <%= image_tag @customer.profile_photo, alt: "Profile Picture", width: 150 %>
+  <% else %>
+    <span style="color:red;">No profile photo uploaded</span>
+  <% end %>
+</p>
+
   <div class="action-links">
     <%= link_to "✏ Edit Customer", edit_customer_path(@customer), class: "btn btn-edit" %>
     <%= link_to "← Back to Customers", customers_path, class: "btn btn-back" %>

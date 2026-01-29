@@ -84,6 +84,35 @@
     <%= @product.Review%>
   </p>
 
+<p>
+  <strong>Product Photos:</strong><br>
+
+  <% if @product.product_picture.attached? %>
+    <% @product.product_picture.each do |photo| %>
+      <%= image_tag url_for(photo), width: 150 %>
+    <% end %>
+  <% else %>
+    No product photo
+  <% end %>
+</p>
+
+<p>
+  <strong>Invoice</strong><br>
+  <% if @product.invoice.attached? %>
+    <%= image_tag @product.invoice, width: 200 %>
+  <% else %>
+    <span style="color:red;">No invoice uploaded</span>
+  <% end %>
+</p>
+
+
+<% if @product.invoice.attached? %>
+          <%= link_to "View PDF", rails_blob_path(@product.invoice, disposition:"inline")%>
+        <% else %>
+            <p>No invoice file</p>
+        <% end %>
+
+
   <div class="product-actions">
     <%= link_to "Edit this product", edit_product_path(@product) %>
     <%= link_to "Back to products", products_path %>

@@ -24,7 +24,8 @@
     color: red;
   }
 
-  .form-group input {
+  .form-group input,
+  .form-group textarea {
     width: 100%;
     padding: 8px;
     border-radius: 5px;
@@ -33,7 +34,8 @@
     font-size: 14px;
   }
 
-  .form-group input:focus {
+  .form-group input:focus,
+  .form-group textarea:focus {
     border-color: #4CAF50;
   }
 
@@ -60,9 +62,15 @@
     margin-bottom: 15px;
     border: 1px solid #f5c6cb;
   }
+
+  .preview img {
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
 </style>
 
-<%= form_with(model: customer, class: "customer-form") do |form| %>
+<%= form_with(model: customer, class: "customer-form", html: { multipart: true }) do |form| %>
 
   <% if customer.errors.any? %>
     <div class="error-box">
@@ -89,13 +97,26 @@
     <%= form.email_field :email, placeholder: "Enter your email", required: true %>
   </div>
 
-  <div class="form-group">
+    <div class="form-group">
     <%= form.label :about_me do %>
       About me <span class="required">*</span>
     <% end %>
-    <%= form.rich_text_area :about_me, placeholder: "Write about you", required: true %>
+    <%= form.rich_text_area :about_me, placeholder: "Enter your email", required: true %>
   </div>
-  
+
+  <div class="form-group">
+    <%= form.label :profile_photo do %>
+      Profile Photo <span class="required">*</span>
+    <% end %>
+
+    <%= form.file_field :profile_photo, required: true %>
+
+    <% if customer.profile_photo.attached? %>
+      <div class="preview">
+        <%= image_tag customer.profile_photo, alt: "Profile Photo", width: 150 %>
+      </div>
+    <% end %>
+  </div>
 
   <div>
     <%= form.submit "Save Customer", class: "submit-btn" %>

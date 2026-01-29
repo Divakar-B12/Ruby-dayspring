@@ -1,5 +1,4 @@
 <style>
-  /* Page Layout */
   .customers-page {
     padding: 20px;
     font-family: "Segoe UI", Tahoma, sans-serif;
@@ -7,7 +6,6 @@
     min-height: 100vh;
   }
 
-  /* Notice Message */
   .notice {
     background: #dcfce7;
     color: #166534;
@@ -19,7 +17,6 @@
     width: fit-content;
   }
 
-  /* Header */
   .page-header {
     display: flex;
     justify-content: space-between;
@@ -32,7 +29,6 @@
     font-size: 26px;
   }
 
-  /* New Customer Button */
   .btn-new {
     background: #22c55e;
     color: #fff;
@@ -48,14 +44,43 @@
     background: #16a34a;
   }
 
-  /* Customers Grid */
   #customers {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
   }
 
-  /* Show Button */
+  .customer-card {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+
+  .customer-photo img {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .no-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    background: #e5e7eb;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    margin: 0 auto 10px;
+    border: 1px dashed #9ca3af;
+  }
+
   .show-link {
     display: inline-block;
     margin-top: 8px;
@@ -83,12 +108,12 @@
     <%= link_to "➕ New Customer", new_customer_path, class: "btn-new" %>
   </div>
 
-<%# <% @customers = @customers.blacklisted_customers([1,2,3]) %>
-
   <div id="customers">
     <% @customers.each do |customer| %>
-      <div>
-        <%= render customer %>
+      <div class="customer-card">
+        <p><strong>Name:</strong> <%= customer.name %></p>
+        <p><strong>Email:</strong> <%= customer.email %></p>
+
         <%= link_to "View Details", customer, class: "show-link" %>
       </div>
     <% end %>
