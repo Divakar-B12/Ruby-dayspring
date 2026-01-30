@@ -67,3 +67,7 @@ end
 
 # Newly add gem
 gem "faker"
+
+# letter_opener gem
+gem "letter_opener", group: :development
+gem "letter_opener_web", group: :development
