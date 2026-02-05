@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_02_041632) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_05_073907) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,6 +61,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_041632) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "customers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
@@ -73,6 +79,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_041632) do
     t.integer "count"
     t.datetime "created_at", null: false
     t.string "details"
+    t.bigint "product_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_orders_on_product_id"
+  end
+
+  create_table "product_categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
     t.datetime "updated_at", null: false
   end
 
@@ -87,6 +101,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_041632) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vendors", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "location"
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.bigint "users_id", null: false
+    t.index ["users_id"], name: "index_vendors_on_users_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "orders", "products"
+  add_foreign_key "vendors", "users", column: "users_id"
 end

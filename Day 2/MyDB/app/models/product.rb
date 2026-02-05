@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
+
+  has_many :orders
   has_one_attached :invoice
   # has_one_attached :product_picture
   has_many_attached :product_picture
