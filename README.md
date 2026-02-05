@@ -1177,6 +1177,877 @@ Summary
   - Flexible routing
   - Easy database evolution
 
+
+
+# Day13 - Rails Tasks and Notes
+
+## 1. Adding a Column to a Table
+
+To add a column to a table:
+
+```bash
+rails generate migration AddColumnColnameToTablename colname:datatype
+rails generate migration AddColumnPhone_numberToCustomer phone_number:integer
+rails db:migrate
+```
+
+* This will create a migration file in `db/migrate`, for example:
+  `db/migrate/20260128044536_add_column_phone_to_customer.rb`
+
+---
+
+## 2. Installing Action Text
+
+```bash
+rails action_text:install
+rails db:migrate
+```
+
+* Adds 4 tables to `schema.rb`:
+
+  * `action_text_rich_texts`
+  * `active_storage_attachments`
+  * `active_storage_blobs`
+  * `active_storage_variant_records`
+
+* Creates migration files in `db/migrate`:
+
+  * `20260128045359_create_active_storage_tables.active_storage.rb`
+  * `20260128045360_create_action_text_tables.action_text.rb`
+
+* Adds files/folders:
+
+  * `app/assets/stylesheets/actiontext.css`
+  * `app/views/active_storage/blobs/_blob.html.erb`
+  * `app/views/layouts/action_text/contents/_content.html.erb`
+  * `test/fixtures/action_text/rich_texts.yml`
+
+* **Git commands:**
+
+  * Check modified files: `git status`
+  * Check changes in a specific file: `git diff <file_path>`
+
+###  after installation
+
+**Connections in Action Text tables**
+
+* `active_storage_attachments` references `active_storage_blobs` via `blob_id`.
+* `active_storage_variant_records` references `active_storage_blobs` via `blob_id`.
+
+---
+
+## 3. Array Operations in Ruby
+
+```ruby
+a1 = [1,2,3,4,5,6]
+a2 = [1,3,5]
+
+a3 = a1 & a2 # intersection => [1, 3, 5]
+a4 = a1 | a2 # union => [1, 2, 3, 4, 5, 6]
+
+print a3
+puts
+print a4
+```
+
+---
+
+## 4. Debugging with `params.inspect`
+
+* Used to inspect parameters from forms or requests for debugging.
+* Stops execution and shows all permitted params in the error page.
+
+```ruby
+def create
+  raise customer_params.inspect
+  @customer = Customer.new(customer_params)
+  respond_to do |format|
+    if @customer.save
+      format.html { redirect_to @customer, notice: "Customer was successfully created." }
+      format.json { render :show, status: :created, location: @customer }
+    else
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @customer.errors, status: :unprocessable_entity }
+    end
+  end
+end
+```
+
+* Example output error:
+
+```
+#<ActionController::Parameters {"name"=>"jhon", "email"=>"1@gmail.com", "about_me"=>"<div>jhon is a english name</div>"} permitted: true>
+```
+
+---
+
+
+# Day 14: Active Storage
+
+## 1. Installation
+
+Active Storage is included in Rails 5.2+. If not installed:
+
+```bash
+rails active_storage:install
+rails db:migrate
+```
+
+> Configure storage in `config/storage.yml` for local or cloud (AWS, GCP, etc.).
+
+---
+
+## 2. Attaching Files to Models
+
+**Product model (single & multiple attachments, rich text):**
+
+```ruby
+class Product < ApplicationRecord
+  has_one_attached :invoice
+  has_many_attached :product_images
+  has_rich_text :review
+end
+```
+
+**Customer model (multiple attachments):**
+
+```ruby
+class Customer < ApplicationRecord
+  has_many_attached :profile_photos
+end
+```
+
+> Use **snake_case** for attachment names.
+
+---
+
+## 3. Strong Parameters
+
+**Product controller:**
+
+```ruby
+def product_params
+  params.require(:product).permit(:name, :description, :price, :stock, :is_active, :review, :invoice, product_images: [])
+end
+```
+
+**Customer controller:**
+
+```ruby
+def customer_params
+  params.require(:customer).permit(:name, :email, :phone_number, :about_me, profile_photos: [])
+end
+```
+
+---
+
+## 4. Forms in Views
+
+**Product form:**
+
+```erb
+<%= form.rich_text_area :review, class: "form-control", placeholder: "Enter review" %>
+<%= form.file_field :product_picture, class: "form-control", multiple: true %>
+<%= form.file_field :invoice, class: "form-control" %>
+```
+
+**Customer form:**
+
+```erb
+<%= form.file_field :profile_photos, class: "form-control", multiple: true %>
+```
+
+---
+
+## 5. Adding Columns via Migration
+
+```bash
+rails generate migration AddColumnDobToCustomer dob:date
+rails db:migrate
+```
+
+> Adds a `dob` column to `customers`.
+
+---
+
+## 6. Displaying Attachments
+
+```erb
+<% if customer.profile_photos.attached? %>
+  <% customer.profile_photos.each do |photo| %>
+    <%= image_tag url_for(photo), class: "rounded" %>
+  <% end %>
+<% end %>
+
+<% if product.invoice.attached? %>
+  <%= link_to "Download Invoice", url_for(product.invoice) %>
+<% end %>
+```
+
+---
+
+## 7. Key Points
+
+1. Use **snake_case** for attachment names.
+2. **Action Text** requires Active Storage.
+3. Configure cloud storage in `storage.yml`.
+4. For multiple files: `has_many_attached` + `multiple: true`.
+5. Always whitelist attachments in controllers.
+6. Use `url_for` to render attachments in views.
+
+# Day 15 – Action Mailer
+
+Action Mailer is used to **send emails** in Rails applications.
+We **do not need to install** Action Mailer separately. It is **included by default** when a Rails application is created.
+
+---
+
+## Step 1: Generate Mailer
+
+```bash
+rails generate mailer CustomerMailer
+```
+
+This command creates the following files:
+
+* `app/mailers/customer_mailer.rb`
+* `app/views/customer_mailer/`
+* `test/mailers/customer_mailer_test.rb`
+* `test/mailers/previews/customer_mailer_preview.rb`
+
+---
+
+## Step 2: application.rb Changes
+
+```ruby
+require "action_mailer/railtie"
+```
+
+This file loads Action Mailer functionality. In most Rails apps, it is already included via `rails/all`.
+A Railtie is the core component that allows a Ruby library or framework (like Action Mailer) to *plug in* to the Rails initialization process. 
+
+---
+
+## Step 3: Configure Email Delivery (development.rb)
+
+Edit `config/environments/development.rb`:
+
+```ruby
+config.action_mailer.perform_deliveries = true
+config.action_mailer.delivery_method = :letter_opener
+```
+
+* `letter_opener` is used to **mock email sending** in development
+* Emails will open in browser instead of being sent
+* In production, delivery method is usually **SMTP**
+
+---
+
+## Step 4: Customer Mailer Method
+
+`app/mailers/customer_mailer.rb`
+
+```ruby
+class CustomerMailer < ApplicationMailer
+  def welcome_email
+    @customer = params[:customer]
+    mail(to: @customer.email, subject: "Welcome !!")
+  end
+end
+```
+
+ `params` contains all the data passed while calling the mailer.
+
+---
+
+## Step 5: Mailer View
+
+Create the file:
+
+```
+app/views/customer_mailer/welcome_email.html.erb
+```
+
+Add HTML content for the email.
+---
+
+## Step 6: Trigger Email from Controller
+
+Send mail **after saving data**:
+
+```ruby
+CustomerMailer.with(customer: @customer).welcome_email.deliver
+```
+
+This line triggers the email.
+
+---
+
+## Step 7: Add Gems
+
+In `Gemfile`:
+
+```ruby
+gem "letter_opener", group: :development
+gem "letter_opener_web", group: :development
+```
+
+Run:
+
+```bash
+bundle install
+```
+
+---
+
+## Step 8: Configure Routes
+
+`config/routes.rb`
+
+```ruby
+if Rails.env.development?
+  mount LetterOpenerWeb::Engine, at: "/letter_opener"
+end
+```
+
+Visit in browser:
+
+```
+http://localhost:3000/letter_opener
+```
+
+---
+
+## Product Mailer Example
+
+Generate mailer:
+
+```bash
+rails generate mailer ProductMailer
+```
+
+Files created:
+
+* `app/mailers/product_mailer.rb`
+* `app/views/product_mailer/`
+* `test/mailers/previews/product_mailer_preview.rb`
+* `test/mailers/product_mailer_test.rb`
+
+### Product Mailer Code
+
+```ruby
+class ProductMailer < ApplicationMailer
+  def welcome_email
+    @product = params[:product]
+    mail(to: @product.email, subject: "Welcome to Rails Mailer Concept")
+  end
+end
+```
+
+---
+
+## Calling Mailer from Controller
+
+```ruby
+def create
+  @product = Product.new(product_params)
+
+  if @product.save
+    ProductMailer.with(product: @product).welcome_email.deliver
+    redirect_to @product, notice: "Product was successfully created."
+  else
+    render :new, status: :unprocessable_entity
+  end
+end
+```
+
+---
+
+## Mailer View for Product
+
+Create:
+
+```
+app/views/product_mailer/welcome_email.html.erb
+```
+
+ Method name and view name must match:
+
+```
+welcome_email → welcome_email.html.erb
+```
+
+---
+
+## Key Points 
+
+* Action Mailer is built into Rails
+* Do not delete `application.rb` or `boot.rb`
+* `letter_opener` is used for development email preview
+* Mailer method name must match view file name
+* Emails should be triggered **after saving data**
+* `params` contains all passed request data
+
+---
+
+# Day 16 – Action Mailbox 
+---
+
+## 1. Install Action Mailbox
+```bash
+rails action_mailbox:install
+```
+
+**Generated files:**
+
+* `app/mailboxes/application_mailbox.rb`
+* `db/migrate/20260202042002_create_action_mailbox_tables.action_mailbox.rb`
+
+---
+
+## 2. Database Migration
+```bash
+rails db:migrate
+```
+
+**Table created:**
+
+* `action_mailbox_inbound_emails`
+
+Used to store all incoming emails.
+
+---
+## 3. Production Configuration
+
+In `config/environments/production.rb`:
+
+```ruby
+config.action_mailbox.ingress = :any_ingress_server
+```
+
+> Default ingress is `:relay`.
+
+---
+## 4. Application Mailbox
+
+```ruby
+class ApplicationMailbox < ActionMailbox::Base
+  routing all: :support
+end
+```
+
+All incoming emails are routed to `SupportMailbox`.
+
+---
+## 5. Generate Support Mailbox
+
+```bash
+rails generate mailbox support
+```
+
+**Generated files:**
+
+* `app/mailboxes/support_mailbox.rb`
+* `test/mailboxes/support_mailbox_test.rb`
+
+---
+
+## 6. Support Mailbox Logic
+
+```ruby
+class SupportMailbox < ApplicationMailbox
+  def process
+    # mail.decode  -> email body
+    # mail.from    -> sender
+    # mail.subject -> subject
+  end
+end
+```
+
+`process` method handles incoming email data.
+
+---
+
+## 7. View Incoming Emails (Development)
+
+```bash
+rails s
+```
+Open:
+
+```
+http://127.0.0.1:3000/rails/conductor/action_mailbox/inbound_emails
+```
+
+will get:
+* View inbound emails
+* Create emails using form or source
+* Check message ID and status
+---
+
+# **Day 17 – References and Methods**
+---
+
+## **1. Creating a Namespaced Model (Model under another Model)**
+
+Command to generate a namespaced migration:
+
+```bash
+rails generate migration ParentModel::ChildModel
+```
+
+**Example:**
+
+```bash
+rails generate migration Product::Category
+rails db:migrate
+```
+
+This creates a **Category model inside Product namespace**.
+
+---
+
+## **2. Adding Column to a Namespaced Model**
+
+General command:
+
+```bash
+rails generate migration AddColumnToModelName column_name:datatype
+```
+
+**Example:**
+
+```bash
+rails generate migration AddColumnCategoryNameToProductCategory category_name:string
+rails db:migrate
+```
+
+This adds a `category_name` column to `Product::Category`.
+
+---
+
+## **3. ActiveRecord Methods**
+
+### **Insert Records**
+```ruby
+ModelName.insert({ column: value, column: value })
+ModelName.insert({})
+ModelName.insert_all([{},{},{},...])
+```
+
+---
+
+### **Find Records**
+```ruby
+Model.find(id)
+```
+
+* Returns record if present
+* Throws exception if not found
+
+```ruby
+Model.find_by(id: id)
+```
+
+* Returns record if present
+* Returns `nil` if not found
+
+---
+
+### **Fetch Records by Order**
+```ruby
+Model.first
+Model.second
+Model.third
+Model.fourth
+Model.fifth
+Model.last
+```
+
+---
+
+## **References**
+* **Reference**: stores another table’s id to connect records
+* **has_many**: one record is linked to many records
+* **foreign_key**: tells Rails which column connects tables
+* **Reference during generation**: creates DB column + relation together
+
+---
+
+## **Primary Key**
+* **primary key**: unique column used to identify a record
+* **custom primary key**: used when column name is not `id`
+
+---
+
+## **Migration Handling**
+* **Migration not run**: delete the file
+* **Migration run**: fix using a new migration
+
+---
+
+## **SQL vs Rails**
+* **SQL**: direct database query
+* **ActiveRecord**: Ruby way to write database queries
+
+---
+
+## **Fetching Records**
+* **all.limit(n)**: returns first `n` records
+* **take**: returns one random record
+
+---
+
+## **Method Differences**
+* **save**: saves object with validations
+* **find**: finds record by id only (error if not found)
+* **find_by**: finds record by any column (nil if not found)
+* **where**: returns filtered records as a collection → `[]`
+* **delete**: removes record without callbacks
+* **destroy**: removes record with callbacks (safe)
+* **update**: updates record with validations
+* **update_all**: updates many records without validations (fast but risky)
+
+---
+
+
+---
+
+# **Day 18 – Core Extensions & ActiveSupport**
+---
+
+## **1. Core Extensions**
+Rails extends Ruby core classes using **ActiveSupport**.
+
+### Covered Extensions
+
+* **Date calculation methods**
+* **Time calculation methods**
+* **String methods**
+* **Array methods**
+* **Hash methods**
+* **Object methods**
+
+These methods are **available only in Rails**, not in plain Ruby.
+
+---
+
+## **2. ActiveSupport Methods**
+
+ActiveSupport adds helper methods that make Rails development easier.
+Example:
+```ruby
+Time.zone.now
+```
+Console output:
+```
+2026-02-04 05:40:23.064766300 UTC +00:00
+```
+---
+
+## **3. Time Calculations**
+
+Rails allows time calculations using readable syntax.
+### Example:
+```ruby
+curr = Time.zone.now
+```
+#### Adding Time
+
+```ruby
+curr + 2.day
+curr + 3.week
+curr + 3.month
+curr + 2.days
+curr + 2.hour
+```
+#### Output Examples:
+* `curr + 2.day` → adds 2 days
+* `curr + 3.week` → adds 3 weeks
+* `curr + 3.month` → adds 3 months
+* `curr + 2.hour` → adds 2 hours
+
+### Supported Time Helpers
+* `n.day / n.days`
+* `n.hour / n.hours`
+* `n.week / n.weeks`
+* `n.month / n.months`
+
+---
+## **4. Date Methods**
+```ruby
+Date.today
+Date.new(year, month, day)
+```
+### Beginning of Period
+```ruby
+Date.today.beginning_of_day
+Date.today.beginning_of_week
+Date.today.beginning_of_month
+Date.today.beginning_of_year
+```
+### End of Period
+```ruby
+Date.today.end_of_day
+Date.today.end_of_week
+Date.today.end_of_month
+Date.today.end_of_year
+```
+---
+## **5. Instrumentation (Pub/Sub)**
+* Used for **logging and monitoring**
+* Rails uses **publish–subscribe** mechanism internally
+* Helps track events like requests, SQL queries, etc.
+---
+
+## **6. ActiveSupport::Concern**
+* Used to **share common code between models/controllers**
+* Helps organize reusable modules
+* Keeps code clean and structured
+---
+
+## **7. Multi-Language Translations (I18n)**
+
+* Rails uses **I18n** for language translations
+* Translations are configured using `en.yml`
+Example:
+```yaml
+en:
+  hello: "Hello"
+```
+* `I18n` is the class that holds all translations
+---
+
+## **8. Blank, Nil, Present, Empty Methods**
+
+These methods are provided by **ActiveSupport**.
+### `blank?`
+```ruby
+" ".blank?   # true
+[].blank?    # true
+{}.blank?    # true
+```
+---
+
+### `nil?`
+```ruby
+" ".nil?   # false
+[].nil?    # false
+{}.nil?    # false
+```
+--
+### `present?`
+```ruby
+" ".present?   # false
+[].present?    # false
+{}.present?    # false
+```
+---
+### `empty?`
+```ruby
+" ".empty?   # true
+[].empty?    # true
+{}.empty?    # true
+```
+
+---
+
+
+# **Day 19 – References and Associations **
+---
+## **1. Generate Model with Reference**
+
+```bash
+rails generate model Vendor name:string location:string user:references
+```
+### Generated Files
+```
+app/models/vendor.rb
+db/migrate/XXXXXXXXXX_create_vendors.rb
+test/models/vendor_test.rb
+test/fixtures/vendors.yml
+```
+---
+## **2. Migration File Content (auto-generated)**
+
+```ruby
+create_table :vendors do |t|
+  t.string :name
+  t.string :location
+  t.references :user, null: false, foreign_key: true
+  t.timestamps
+end
+```
+---
+## **3. Run Migration**
+
+```bash
+rails db:migrate
+```
+
+### Effect
+
+```
+Creates vendors table in database
+Adds user_id foreign key
+```
+---
+## **4. Generate Model (Without Reference)**
+```bash
+rails generate model Order details:string count:integer
+```
+### Generated Files
+```
+app/models/order.rb
+db/migrate/XXXXXXXXXX_create_orders.rb
+test/models/order_test.rb
+test/fixtures/orders.yml
+```
+
+---
+## **5. Add Reference to Existing Model**
+
+```bash
+rails generate migration AddUserToOrders user:references
+```
+### Generated Files
+```
+db/migrate/XXXXXXXXXX_add_user_to_orders.rb
+```
+
+---
+## **6. Add Column to Existing Table**
+
+```bash
+rails generate migration AddEmailToVendors email:string
+```
+### Generated Files
+```
+db/migrate/XXXXXXXXXX_add_email_to_vendors.rb
+```
+---
+## **8. Create Records from Console**
+
+```ruby
+User.create(name: "Divakar")
+Vendor.create(name: "Divakar", location: "Karnataka", user_id: 1)
+Order.create(details: "Setsuko", count: 2, user_id: 1)
+```
+
+---
+## **9. Association-Based Creation**
+
+```ruby
+User.last.vendors.create(name: "Saita", location: "japan")
+Product.last.orders.create(details: "Wanted Books", count: 5)
+```
+---
+* `rails generate model` → model + migration + tests
+* `rails generate migration` → only migration file
+* `user:references` → creates `user_id` + foreign key
+* `rails db:migrate` → applies changes to DB
+
+
  ## 📌 Quick Reference Table
 
 | Command | Description |
