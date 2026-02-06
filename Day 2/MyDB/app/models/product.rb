@@ -1,6 +1,7 @@
 class Product < ApplicationRecord
-
-  has_many :orders
+  has_and_belongs_to_many :tags
+  has_many :orders, dependent: :destroy
+  has_many :offers, through: :product_offers, dependent: :destroy
   has_one_attached :invoice
   # has_one_attached :product_picture
   has_many_attached :product_picture

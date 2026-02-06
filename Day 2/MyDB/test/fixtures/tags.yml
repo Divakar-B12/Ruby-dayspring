@@ -2,10 +2,8 @@
 
 one:
   name: MyString
-  location: MyString
-  users: one
+  description: MyString
 
 two:
   name: MyString
-  location: MyString
-  users: two
+  description: MyString

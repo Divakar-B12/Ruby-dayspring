@@ -3,7 +3,7 @@ class CreateVendors < ActiveRecord::Migration[8.1]
     create_table :vendors do |t|
       t.string :name
       t.string :location
-      t.references :users, null: false, foreign_key: true
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end

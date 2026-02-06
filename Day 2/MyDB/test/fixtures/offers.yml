@@ -2,10 +2,10 @@
 
 one:
   name: MyString
-  location: MyString
-  users: one
+  status: false
+  discount: 1
 
 two:
   name: MyString
-  location: MyString
-  users: two
+  status: false
+  discount: 1
